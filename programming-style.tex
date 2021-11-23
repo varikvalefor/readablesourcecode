@@ -1,0 +1,166 @@
+\documentclass{report}
+\usepackage[margin=1.25in]{geometry}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{listings}
+\usepackage{parskip}
+\title{Guidelines for the Creation of Readable Source Code}
+\author{Varik Valefor}
+\begin{document}
+\maketitle{}
+\tableofcontents{}
+\chapter{Executive Summary}
+	A very brief overview of VARIK's requirements for readable source code is as follows:
+	\begin{itemize}
+		\item For all lines, the length of a line is less than or equal to seventy-two (72) characters.
+		\item For all functions, the length of a function is less than or equal to fifteen (15) lines.
+		\item For all functions $f$, the purpose of $f$ is explained within a comment which is specific to $f$.
+		\item For all tokens $t$, the name of $t$ is descriptive, or the meaning of $t$ is fully explained.
+	\end{itemize}
+\chapter{Disclaimer}
+This document is a work in progress.  Some things may be missing or overall a bit cheesy.  The inclusion of stuff can be requested at \url{https://github.com/varikvalefor/readablesourcecode/issues}.
+\chapter{Comments}
+\section{Executive Summary}
+For all functions $k$, there exists a comment $c$ such that $c$ describes the functionality of $k$ without too verbosely describing the inner workings of $k$.
+
+For all variables $v$, there exists a comment $c$ such that $c$ describes the content of $c$ and \textit{possibly} the purpose of $v$.
+
+\section{Functions}
+\subsection{Top-Level Summaries}
+For all functions $f$, there exists a comment $c$ such that $c$ describes the functionality of $c$ without describing the non-limiting technical details of the implementation of $f$.  $c$ immediately precedes $f$.
+
+For all functions $f$, for all arguments $a$ of $f$, the purpose of $a$ is explained.
+\subsection{Implementation Details}
+For all functions $f$, for all crappy/odd/confusing parts of $f$ $l$, a comment which explains the purpose and functionality of $l$ precedes $l$.
+
+Additionally, for all functions $f$, for all sub-functions and variables $\varphi$ of $f$, the purpose or meaning of $\varphi$ should be explained if determining the purpose or meaning of $\varphi$ is not \textit{really} a trivial exercise for the reader.
+\subsection{Examples}
+\subsubsection{Example qK49R6kK}
+An example of a well-documented function is as follows:
+\lstdefinestyle{customhaskell}{
+	basicstyle=\ttfamily\footnotesize
+}
+\lstset{style=customhaskell}
+\begin{lstlisting}
+-- | @loadQuiz k@ returns a 'Quiz'-based representation of the quiz
+-- whose name is @k@.
+--
+-- Quiz files are read from @/usr/share/games/quiz.db/@.
+loadQuiz :: String
+         -- ^ The name of the quiz which should be returned
+         -> IO Quiz;
+loadQuiz = parseQuiz <.> T.readFile . ("/usr/share/games/quiz.db/" ++);
+\end{lstlisting}
+\texttt{loadQuiz}'s top-level comment is sufficiently detailed to be of great use to the users of \texttt{loadQuiz}.  However, the top-level comment of \texttt{loadQuiz} does not contain any unnecessary detail.
+
+No comments are present within the body of \texttt{loadQuiz}; the body of \texttt{loadQuiz} is simple such that comments in the body of \texttt{loadQuiz} are of real use only to beginners.
+\subsubsection{Example gZbkNtqW}
+An example of a function which is documented \textit{reasonably} well is as follows:
+\begin{lstlisting}
+-- | @((a <.> b) c) == (a <$> b c)@.
+(<.>) :: Functor f
+      => (a -> b)
+      -> (c -> f a)
+      -> c
+      -> f b;
+(<.>) a b c = a <$> b c;
+infixl 1 <.>;
+\end{lstlisting}
+The term ``reasonably'' is used because although the top-level comment of \texttt{(<.>)} is essentially the body of \texttt{(<.>)}, explaining \texttt{(<.>)} in other terms involves writing a pretty decent amount of text, and the resulting explanation is likely relatively confusing.
+\subsubsection{Example LMjrUhHR}
+A well-documented function is as follows:
+\begin{lstlisting}
+-- | Where @k@ represents a @m.room.message@ of message type
+-- @m.location@, @valueMTextToStdMess@ is a 'StdMess' which should be
+-- equivalent to @k@.
+valueMLocationToStdMess :: Value
+                        -- ^ The representation of the message which
+                        -- should become a 'StdMess'
+                        -> StdMess;
+valueMLocationToStdMess k = Def.stdMess {
+  msgType = Location,
+  body = k .! "{content:body}",
+  geo_uri = k .! "{content:geo_uri}",
+  boilerplate = valueToECF k
+};
+\end{lstlisting}
+The functionality of the source code of the function is fairly obvious if function \texttt{(.!)} is understood.  However, \texttt{valueMLocationToStdMsg} is complex such that the length of the top-level comment which describes \texttt{valueMLocationToStdMsg} can be less than the length of the source code of \texttt{valueMLocationToStdMsg}.
+\subsubsection{Example 747g64rm}
+A well-documented function is as follows:
+\begin{lstlisting}
+-- | @grab@ is used to fetch and output the messages of a room.
+--
+-- @grab@'s argument follows the pattern [NUMBER OF MESSAGES, "EARLY" OR
+-- "RECENT", JUNK DATA, ID OF DESIRED MATRIX ROOM].
+grab :: [String]
+     -- ^ The first 3 elements of this list are the decimal number of
+     -- messages which should be nabbed, "early" or "recent", some junk
+     -- data, and the internal Matrix ID of the room from which messages
+     -- should be nabbed.
+     -> Auth
+     -- ^ The authorisation information
+     -> IO ();
+grab k a
+  | k == [] = error "Repent, motherfucker."
+  | n < 0 = error "I need a natural number, not garbage."
+  | n == 0 = error "Why in the hell would you want to take 0 messages?"
+  | otherwise = case k !! 1 of
+    "recent" -> recentMessagesFrom n room a >>= mapM_ print
+    "early"  -> earlyMessagesFrom n room a >>= mapM_ print
+    _        -> error "I'll grab you if you don't grab some sense."
+  where
+  -- \| This variable refers to the number of messages which should be
+  -- fetched.
+  n :: Integer
+  n = fromMaybe (-42) $ readMaybe $ head k
+  --
+  room :: Room
+  room = Def.room {roomId = k !! 3};
+\end{lstlisting}
+In addition to including a few jokes, \texttt{grab} has good documentation; \texttt{grab}'s documentation outlines the purpose of \texttt{grab}, the purposes of the arguments of \texttt{grab}, and the purpose of a variable whose name is not terribly descriptive.
+\subsubsection{Example NyT0xsii}
+A poorly-documented function is as follows:
+\begin{lstlisting}
+mean :: Num a => Floating b => [a] -> b;
+mean l = fromIntegral (sum l) / fromIntegral (length l);
+\end{lstlisting}
+Although the name ``\texttt{mean}'' is not at all misleading, a bit of confirmation would be nice.
+
+A relatively well-documented version of \texttt{mean} is as follows:
+\begin{lstlisting}
+-- | @mean k@ is the mean of @k@.
+mean :: Num a
+     => Floating b
+     => [a]
+     -- ^ The list whose mean is output
+     -> b;
+mean l = fromIntegral (sum l) / fromIntegral (length l);
+\end{lstlisting}
+\section{Variables}
+For all variables $v$, there exists a comment $c$ such that $c$ describes the content of $v$ and \textit{possibly} the purpose of $v$.
+
+$c$ explains the purpose of $v$ if $v$ has \textit{a single purpose}.
+\subsection{Examples}
+\subsubsection{Example 2PH4x9Qv}
+An example of a well-documented variable is as follows:
+\begin{lstlisting}
+-- | @homeslice@ returns the content of the "HOME" environment
+-- variable.
+homeslice :: IO String;
+homeslice = getEnv "HOME";
+\end{lstlisting}
+The documentation of \texttt{homeslice} is succinct, and all good documentation is succinct.
+
+The only potential problem is the dumb joke name of \texttt{homeslice}.  However, because the value of \texttt{homeslice} is explained, the name ``\texttt{homeslice}'' \texttt{should} not cause any problems.  But dummies ae known to do some crazy things.
+
+The phrase ``content of'' is not redundant; if ``content of'' is not present, then the reader may assume that \texttt{homeslice} returns the entire \texttt{HOME} environment variable, e.g., \texttt{HOME=/root}.
+\subsubsection{Example pN5Neyrs}
+A completely inexcusable variable declaration is as follows:
+\begin{lstlisting}
+a :: IO Int;
+a = (`mod` 5) . (^2) <$> klang;
+\end{lstlisting}
+The content and purpose of \texttt{klang} are all but entirely invisible.  The relationship of \texttt{a} and \texttt{klang} is obvious --- the monadic value of \texttt{a} is congruent to the square of the monadic value of \texttt{klang} modulo 5 --- but the purpose of \texttt{a} is completely undocumented, and the name ``\texttt{a}'' provides no insight as to why the reader should care about the existence of \texttt{a}.
+\end{document}
