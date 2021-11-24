@@ -202,7 +202,7 @@ For all $\left\langle l, t\right\rangle \in \mathbb L \times \mathbb T$, $d(t, l
 \end{proof}
 \section{Functions}
 \subsection{Executive Summary}
-For all functions $f$, the line-based length of $f$'s definition is less than or equal to fifteen (15).  Lines of documentation and the lengths of the declarations of the sub-functions and sub-variables which are properly ``separated'' from the ``real'' function are not counted.
+For all functions $f$, the line-based length of $f$'s definition is less than or equal to fifteen (15).  Lines of documentation are not counted.
 \subsection{Explaining the Choice}
 \subsubsection{Definitions}
 $\mathbb F$ denotes the set of all functions.
@@ -256,4 +256,8 @@ For all $f \in \mathbb F$, $e(f)$ iff the definition of $f$ can be easily read a
 This subsection lists a subset of the ``types'' of functions which can reasonably be relatively long.
 \subsubsection{Functions which Output Values of Algebraic Data Types}
 Functions which output values of algebraic data types can be relatively lengthy; the definitions of such values are often inherently long.
+\subsubsection{Functions which Contain Good Sub-Functions and Variables}
+For all functions $f$, for all sub-functions and variables $s$ of $f$, $s$ is good iff $s$ is of real use \textit{only} within $f$.
+
+For all functions $f$, the lengths of the declarations of the good sub-functions and variables of $f$ are not included in the length of $f$.
 \end{document}
