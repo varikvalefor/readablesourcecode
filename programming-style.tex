@@ -177,41 +177,21 @@ The maximum line length of seventy-two (72) characters is chosen because all ter
 \subsubsection{Definitions}
 $\mathbb L$ denotes the set of all lines.
 
-For all $l \in \mathbb L$, $L(l)$ denotes the character-based length of $l$.
+$\mathbb T$ denotes the set of all terminals.
 
-For all $l \in \mathbb L$, $c(l)$ iff $l$ is excessively complex.
-
-For all $l \in \mathbb L$, $e(l)$ iff the definition of $l$ can be easily read and understood by a man who is not a novice of the language in which $l$ is written.
+For all $\left\langle l, t\right\rangle \in \mathbb L \times \mathbb T$, $d(t, l)$ iff $t$ easily displays $l$ properly.
 \subsubsection{A Proof!}
 \begin{thm}
 	For all $l \in \mathbb L$, $L(l) \leq 72$.
 \end{thm}
 \begin{proof}
 	\[
-		\forall C \in \Omega^3,\ 
-		\left(C_1 \implies (\neg C_2) \lor C_3\right)
-		\land
-		\left(C_2 \land (\neg C_3)\right)
-		\implies \neg C_1.
+		\forall l \in \mathbb L,\ 
+		\nexists t \in \mathbb T : \neg d(t, l) \implies L(l) \leq 72.
 	\]
 	\[
 		\forall l \in \mathbb L,\ 
-		L(l) > 72 \implies \left(\neg e(l)\right) \lor \left(c(l)\right).
-	\]
-	\[
-		\forall k \in \mathbb N^2,\ 
-		\neg \left(k_1 > k_2\right) \iff k_1 \leq k_2.
-	\]
-	\[
-		\forall l \in \mathbb L,\ 
-		L(l) \in \mathbb N.
-	\]
-	\[
-		\forall l \in \mathbb L,\ 
-		e(l) \land \neg c(l).
-	\]
-	\[
-		72 \in \mathbb N.
+		\nexists t \in \mathbb T : \neg d(t, l).
 	\]
 	\[
 		\therefore
