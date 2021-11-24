@@ -193,8 +193,15 @@ For all $f \in \mathbb F$, $e(f)$ iff the definition of $f$ can be easily read a
 \end{thm}
 \begin{proof}
 	\[
+		\forall C \in \Omega^3,\ 
+		\left(C_1 \implies (\neg C_2) \lor C_3\right)
+		\land
+		\left(C_2 \land (\neg C_3)\right)
+		\implies \neg C_1.
+	\]
+	\[
 		\forall f \in \mathbb F,\ 
-		l(f) \in \mathbb N.
+		l(f) > 72 \implies \left(\neg e(f)\right) \lor \left(c(f)\right).
 	\]
 	\[
 		\forall k \in \mathbb N^2,\ 
@@ -202,7 +209,7 @@ For all $f \in \mathbb F$, $e(f)$ iff the definition of $f$ can be easily read a
 	\]
 	\[
 		\forall f \in \mathbb F,\ 
-		l(f) > 72 \implies \left(\neg e(f)\right) \lor \left(c(f)\right).
+		l(f) \in \mathbb N.
 	\]
 	\[
 		\forall f \in \mathbb F,\ 
@@ -210,13 +217,6 @@ For all $f \in \mathbb F$, $e(f)$ iff the definition of $f$ can be easily read a
 	\]
 	\[
 		72 \in \mathbb N.
-	\]
-	\[
-		\forall C \in \Omega^3,\ 
-		\left(C_1 \implies (\neg C_2) \lor C_3\right)
-		\land
-		\left(C_2 \land (\neg C_3)\right)
-		\implies \neg C_1.
 	\]
 	\[
 		\therefore
