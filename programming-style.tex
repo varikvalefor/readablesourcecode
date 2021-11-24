@@ -6,6 +6,7 @@
 \usepackage{amsthm}
 \usepackage{listings}
 \usepackage{parskip}
+\newtheorem{thm}{Theorem}
 \title{Guidelines for the Creation of Readable Source Code}
 \author{Varik Valefor}
 \begin{document}
@@ -163,4 +164,58 @@ a :: IO Int;
 a = (`mod` 5) . (^2) <$> klang;
 \end{lstlisting}
 The content and purpose of \texttt{klang} are all but entirely invisible.  The relationship of \texttt{a} and \texttt{klang} is obvious --- the monadic value of \texttt{a} is congruent to the square of the monadic value of \texttt{klang} modulo 5 --- but the purpose of \texttt{a} is completely undocumented, and the name ``\texttt{a}'' provides no insight as to why the reader should care about the existence of \texttt{a}.
+\chapter{Length}
+\section{Executive Summary}
+For all lines $l$, the character-based length of $l$ is less than or equal to seventy-two (72).
+
+For all functions $f$, the line-based length of $f$'s definition is less than or equal to fifteen (15).
+\section{Lines}
+For all lines $l$, the character-based length of $l$ is less than or equal to seventy-two (72).
+
+The maximum line length of seventy-two (72) characters is chosen because all terminals of a decent size can easily display a line whose length is less than or equal to seventy-two (72) characters.
+\section{Functions}
+\subsection{Executive Summary}
+For all functions $f$, the line-based length of $f$'s definition is less than or equal to fifteen (15).
+\subsection{Explaining the Choice}
+\subsubsection{Definitions}
+$\mathbb F$ denotes the set of all functions.
+
+For all $f \in \mathbb F$, $d(f)$ denotes the source code-based definition of $f$.
+
+For all $f \in \mathbb F$, $l(f)$ denotes the line-based length of $d(f)$.
+
+For all $f \in \mathbb F$, $c(f)$ iff $f$ is excessively complex.
+
+For all $f \in \mathbb F$, $e(f)$ iff the definition of $f$ can be easily read and understood by a man who is not a novice of the language in which $f$ is written.
+\subsubsection{A Proof!}
+\begin{thm}
+	For all $f \in \mathbb F$, $l(f) \leq 72$.
+\end{thm}
+\begin{proof}
+	\[
+		\forall f \in \mathbb F,\ 
+		l(f) \in \mathbb N.
+	\]
+	\[
+		\forall k \in \mathbb N^2,\ 
+		\neg \left(k_1 > k_2\right) \iff k_1 \leq k_2.
+	\]
+	\[
+		\forall f \in \mathbb F,\ 
+		l(f) > 72 \implies \left(\neg e(f)\right) \lor \left(c(f)\right).
+	\]
+	\[
+		\forall f \in \mathbb F,\ 
+		e(f) \land \neg c(f).
+	\]
+	\[
+		72 \in \mathbb N.
+	\]
+	\[
+		\therefore
+		\forall f \in \mathbb F,\ 
+		l(f) \leq 72.
+		\qedhere
+	\]
+\end{proof}
 \end{document}
