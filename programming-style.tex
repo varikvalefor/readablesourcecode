@@ -202,14 +202,14 @@ For all $\left\langle l, t\right\rangle \in \mathbb L \times \mathbb T$, $d(t, l
 \end{proof}
 \section{Functions}
 \subsection{Executive Summary}
-For all functions $f$, the line-based length of $f$'s definition is less than or equal to fifteen (15).
+For all functions $f$, the line-based length of $f$'s definition is less than or equal to fifteen (15).  Lines of documentation are not counted.
 \subsection{Explaining the Choice}
 \subsubsection{Definitions}
 $\mathbb F$ denotes the set of all functions.
 
 For all $f \in \mathbb F$, $d(f)$ denotes the source code-based definition of $f$.
 
-For all $f \in \mathbb F$, $l(f)$ denotes the line-based length of $d(f)$.
+For all $f \in \mathbb F$, $l(f)$ denotes the line-based length of $d(f)$.  $l(f)$ \textit{does not} include documentation which is contained within $d(f)$.
 
 For all $f \in \mathbb F$, $c(f)$ iff $f$ is excessively complex.
 
