@@ -260,6 +260,52 @@ Functions which output values of algebraic data types can be relatively lengthy;
 For all functions $f$, for all sub-functions and variables $s$ of $f$, $s$ is good iff $s$ is of real use \textit{only} within $f$.
 
 For all functions $f$, the lengths of the declarations of the good sub-functions and variables of $f$ are not included in the length of $f$.
+\subsection{Examples}
+\subsubsection{Example pNFOEuuN}
+A function whose length can be justified is as follows:
+\begin{lstlisting}
+instance Options Opt where
+  defineOptions = pure Opt
+    -- predetBase
+    <*> defineOption optionType_string (\o -> o
+        {
+          optionShortFlags = "f",
+          optionDefault = "",
+          optionDescription = "This value is the name of the \
+          \pre-defined character set which functions as the encoding \
+          \of the input."
+        })
+    -- predetDest
+    <*> defineOption optionType_string (\o -> o
+        {
+          optionShortFlags = "t",
+          optionDefault = "decimal",
+          optionDescription = "This value is the name of the \
+          \pre-defined character set which functions as the encoding \
+          \of the output."
+        })
+    -- customBase
+    <*> defineOption optionType_string (\o -> o
+        {
+          optionShortFlags = "F",
+          optionDefault = "",
+          optionDescription = "This value is the character set of the \
+          \input.  The first character is the 0-valued digit, and the \
+          \final value is the n-valued digit, where n is difference of \
+          \the length of the input character set and 1."
+        })
+    -- customDest
+    <*> defineOption optionType_string (\o -> o
+        {
+          optionShortFlags = "T",
+          optionDefault = "",
+          optionDescription = "This value is the character set of the \
+          \output.  The first character is the 0-valued digit, and the \
+          \final value is the n-valued digit, where n is the \
+          \difference of the length of the output character set and 1."
+        });
+\end{lstlisting}
+The definition of \texttt{Opt}'s \texttt{defineOptions} is reasonably long; however, the definition of \texttt{defineOptions} can be followed with reasonable ease, as a few comments which separate the options are included.
 \chapter{Breaking Stuff Up}
 \section{Executive Summary}
 Functions which are terribly long should be split into multiple functions.
