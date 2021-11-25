@@ -346,7 +346,7 @@ divisors ← {1↓((i⍵) divides ⍵)/i⍵}
 isPrime ← {⍵=⌊/divisors ⍵}
 factor ← {1 = ⍵ : 1 ⋄ isPrime ⍵ : ⍵ ⋄ ⊃,/factor ¨ ⍵ {⍵,⍺÷⍵} ⌊/divisors ⍵}
 \end{lstlisting}
-Adding comments to this snippet is left as an exercise for the reader.
+Adding documentation to this snippet is left as an exercise for the reader.
 
 Further simplifying this snippet is also left as an exercise for the reader; VARIK finds that attempting to further simplify the snippet may be a waste of time, and VARIK does not wish to waste time.
 \end{document}
