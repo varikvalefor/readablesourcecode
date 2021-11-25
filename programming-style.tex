@@ -337,7 +337,7 @@ factor ← {1 = ⍵ : 1 ⋄ isPrime ⍵ : ⍵ ⋄ ⊃,/factor ¨ ⍵ {⍵,⍺÷�
 \end{lstlisting}
 Simplification is possible still.
 
-The janky-looking defun which appears multiple times in \texttt{divisors} can become a tradfun, yielding the following result:
+The janky-looking defun-like thing which appears multiple times in \texttt{divisors} can become a tradfun, yielding the following result:
 \begin{lstlisting}
 ⎕IO←0
 i ← {1+⍳⍵}
