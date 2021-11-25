@@ -318,6 +318,8 @@ Functions which are excessively lengthy should be split into multiple local or g
 For all excessively lengthy functions $f$, $f$ can be split into multiple functions such that the resulting functions are accessible by functions which are defined outside of the scope of $f$.
 \subsection{Local Splitting}
 In many programming languages, for all excessively lengthy functions $f$, $f$ can be split into multiple functions such that the resulting functions are accessible only within the scope of $f$.
+
+``In many programming languages'' is written because some programming languages, e.g., C, support only janky-looking sub-functions\ldots or do not support \textit{any} sub-functions.  When such programming langages are used, the use of local functions is infeasible or outright impossible; as such, global functions should generally be used.
 \section{Examples}
 \subsubsection{Example VZk6MTuH}
 A function definition which is unreasonably long is as follows:
