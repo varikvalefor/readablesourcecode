@@ -260,4 +260,42 @@ Functions which output values of algebraic data types can be relatively lengthy;
 For all functions $f$, for all sub-functions and variables $s$ of $f$, $s$ is good iff $s$ is of real use \textit{only} within $f$.
 
 For all functions $f$, the lengths of the declarations of the good sub-functions and variables of $f$ are not included in the length of $f$.
+\chapter{Breaking Stuff Up}
+\section{Executive Summary}
+Functions which are terribly long should be split into multiple functions.
+\section{``When Should Functions be Split?''}
+For all functions $f$, $f$ should be split into multiple functions iff $f$ is excessively lengthy, $f$ does some stuff such that other functions may benefit from such stuff's being moved into a global function, or $f$ contains some function arguments which are frequently re-used.
+\section{Methods of Splitting Functions}
+\subsection{Global Splitting}
+For all excessively lengthy functions $f$, $f$ can be split into multiple functions such that the resulting functions are accessible by functions which are defined outside of the scope of $f$.
+\subsection{Local Splitting}
+In many programming languages, for all excessively lengthy functions $f$, $f$ can be split into multiple functions such that the resulting functions are accessible only within the scope of $f$.
+\section{Examples}
+\subsubsection{Example VZk6MTuH}
+A function definition which is terribly long is as follows:
+\begin{lstlisting}
+-- | @longAssPieceOfCrap k@ iff @k@ is prime.
+longAssPieceOfCrap :: Integer
+                   -- ^ The number whose primality is checked
+                   -> Bool;
+longAssPieceOfCrap n = [] == filter ((== 0) . (mod n)) [2..n `div` 2];
+\end{lstlisting}
+\texttt{longAssPieceOfCrap} is \textit{somewhat} true to \texttt{longAssPieceOfCrap}'s name.  However, \texttt{longAssPieceOfCrap} is hardly the worst thing in the world.  Just pardon the cheesy little ``\texttt{`div` 2}'' thing.
+
+The mildly experienced Haskeller can fairly quickly re-write \texttt{longAssPieceOfCrap} as follows:
+\begin{lstlisting}
+-- | @longAssPieceOfCrap k@ iff @k@ is prime.
+longAssPieceOfCrap :: Integer
+                   -- ^ The number whose primality is checked
+                   -> Bool;
+longAssPieceOfCrap n = [] == divisors n;
+
+-- | @divisors k@ is a list which contains all non-1 and non-@k@
+-- divisors of @k@.
+divisors :: Integer
+         -- ^ The number whose divisors should be output
+         -> [Integer];
+divisors k = filter ((== 0) . (mod n)) [2..k `div` 2];
+\end{lstlisting}
+\texttt{divisors} can be reasonably added as a global function because other functions may benefit from the existence of \texttt{divisors}.
 \end{document}
