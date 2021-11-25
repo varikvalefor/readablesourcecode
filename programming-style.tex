@@ -298,4 +298,55 @@ divisors :: Integer
 divisors k = filter ((== 0) . (mod n)) [2..k `div` 2];
 \end{lstlisting}
 \texttt{divisors} can be reasonably added as a global function because other functions may benefit from the existence of \texttt{divisors}.
+\subsubsection{Example Q1Kd5TTS}
+A terribly long --- and contrived --- function definition is as follows:
+\begin{lstlisting}
+⎕IO←0
+factor ← {1 = ⍵ : 1 ⋄ ⍵=⌊/1↓(0=(1+⍳⍵)|⍵)/1+⍳⍵ : ⍵ ⋄ ⊃,/factor ¨ ⍵ {⍵,⍺÷⍵} ⌊/ {1↓(0=(1+⍳⍵)|⍵)/1+⍳⍵}}
+\end{lstlisting}
+Dear God!  Some APL symbols are not typeset correctly!
+
+Hopefully, this problem is fixed in the future.
+
+In the meantime, the reader must tolerate looking at some broken APL code.  Alternatively, the reader can view the raw APL source code which is contained within the source code of this document, \textit{or} the reader can even attempt to fix the problem.
+
+Returning to the actual point of this subsubsection, \texttt{factor} can be shortened significantly if a portion of \texttt{factor} is moved to a function \texttt{isPrime}.  The result of such a move is as follows:
+\begin{lstlisting}
+⎕IO←0
+isPrime ← {⍵=⌊/1↓(0=(1+⍳⍵)|⍵)/1+⍳⍵}
+factor ← {1 = ⍵ : 1 ⋄ isPrime ⍵ : ⍵ ⋄ ⊃,/factor ¨ ⍵ {⍵,⍺÷⍵} ⌊/ {1↓(0=(1+⍳⍵)|⍵)/1+⍳⍵}}
+\end{lstlisting}
+Although functions \texttt{factor} and \texttt{isPrime} can be reverse-engineered within a few hours, the readability of \texttt{factor} and \texttt{isPrime} is hardly maximised.
+
+A part of \texttt{factor} can become a new function \texttt{divisors}.  The result of moving part of \texttt{isPrime} into \texttt{divisors} is as follows:
+\begin{lstlisting}
+⎕IO←0
+divisors ← {1↓(0=(1+⍳⍵)|⍵)/1+⍳⍵}
+isPrime ← {⍵=⌊/divisors ⍵}
+factor ← {1 = ⍵ : 1 ⋄ isPrime ⍵ : ⍵ ⋄ ⊃,/factor ¨ ⍵ {⍵,⍺÷⍵} ⌊/divisors ⍵}
+\end{lstlisting}
+However, the snippet's simplicity is still not maximised!
+
+A function \texttt{divides} can be extracted from \texttt{divisors}, yielding the following result:
+\begin{lstlisting}
+⎕IO←0
+divides ← {0=⍺|⍵}
+divisors ← {1↓((1+⍳⍵) divides ⍵)/1+⍳⍵}
+isPrime ← {⍵=⌊/divisors ⍵}
+factor ← {1 = ⍵ : 1 ⋄ isPrime ⍵ : ⍵ ⋄ ⊃,/factor ¨ ⍵ {⍵,⍺÷⍵} ⌊/divisors ⍵}
+\end{lstlisting}
+Simplification is possible still.
+
+The janky-looking defun which appears multiple times in \texttt{divisors} can become a tradfun, yielding the following result:
+\begin{lstlisting}
+⎕IO←0
+i ← {1+⍳⍵}
+divides ← {0=⍺|⍵}
+divisors ← {1↓((i⍵) divides ⍵)/i⍵}
+isPrime ← {⍵=⌊/divisors ⍵}
+factor ← {1 = ⍵ : 1 ⋄ isPrime ⍵ : ⍵ ⋄ ⊃,/factor ¨ ⍵ {⍵,⍺÷⍵} ⌊/divisors ⍵}
+\end{lstlisting}
+Adding comments to this snippet is left as an exercise for the reader.
+
+Further simplifying this snippet is also left as an exercise for the reader; VARIK finds that attempting to further simplify the snippet may be a waste of time, and VARIK does not wish to waste time.
 \end{document}
