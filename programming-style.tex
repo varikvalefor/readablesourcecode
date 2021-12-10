@@ -308,6 +308,54 @@ instance Options Opt where
         });
 \end{lstlisting}
 The definition of \texttt{Opt}'s \texttt{defineOptions} is reasonably long; however, the definition of \texttt{defineOptions} can be ``followed'' with reasonable ease, as a few comments which separate the options are included.
+\chapter{Names}
+\section{Executive Summary}
+For all variables and functions $t$, the name of $t$ should be descriptive\ldots or a joke.
+\section{Examples of Poorly-Named Things}
+\subsubsection{Example HS4FdMOi}
+A function which contains a particularly poorly-named variable is as follows:
+\begin{lstlisting}
+-- | @soundAlarm k@ sounds some alarms iff @k@ indicates that something
+-- goes wrong.
+--
+--
+--
+-- **Theorem**.  Multiple alarms do not sound simultaneously.
+--
+-- *Proof.
+--
+-- Multiple alarms sound simultaneously only if the ease of
+-- understanding the output of @albertlertd@ is not maximised.
+--
+-- The ease of understanding the output of @albertlertd@ is maximised.
+--
+-- Therefore, multiple alarms do not sound simultaneously.  Q.E.D.
+soundAlarm :: SystemInfo -> IO ();
+soundAlarm k
+  | temperature k > 350 = soundThermalAlarm >>
+                          soundAlarm k {temperature = 0}
+                          -- \^ By setting @k@'s temperature to 0 before
+                          -- the recursion takes place, @soundAlarm@
+                          -- prevents an infinite loop.
+  | systemIsOverheating = soundTheBatSignal >>
+                          soundAlarm k {currBatVoltage = ratedBatVoltage k}
+                          -- \^ Another infinite loop is prevented.
+  | otherwise = return ()
+  where
+  systemIsOverheating :: Bool
+  systemIsOverheating
+    | isNothing $ currBatVoltage k = False
+    | otherwise = fromJust (currBatVoltage k) / fromJust (ratedBatVoltage k) < 0.75
+  --
+  soundThermalAlarm = playAudioFile "OVERHEAT.WAV"
+  soundTheBatSignal = playAudioFile "BATSIGNL.WAV";
+\end{lstlisting}
+The name ``\textit{systemIsOverheating}'' is horse shit.  The value of \textit{systemIsOverheating} has no relevance to whether or not the system is overheating, as \textit{systemIsOverheating} iff the battery of the system on which \textit{systemIsOverheating} runs is a bit low.
+
+VARIK finds that problems which resemble this problem are best prevented through the regular reviewing of diffs.
+
+\paragraph{Anti-Disclaimer}
+No, this example is \textit{not} contrived.  Dumb stuff can just enter things which are written during late nights.
 \chapter{Breaking Stuff Up}
 \section{Executive Summary}
 Functions which are terribly long should be split into multiple functions.
