@@ -141,6 +141,28 @@ mean :: Num a
      -> b;
 mean l = fromIntegral (sum l) / fromIntegral (length l);
 \end{lstlisting}
+\subsubsection{Example UGrESczF}
+VARIK initially struggles to add documentation to \texttt{unfurl}, whose initial documentation is as follows:
+\begin{lstlisting}
+unfurl :: [Either a b] -> Either a [b];
+unfurl k = bool lefts' rights' $ null $ lefts k
+  where
+  rights' = Right $ rights k
+  lefts' = Left $ head $ lefts k;
+\end{lstlisting}
+However, VARIK eventually manages to add the following comments:
+\begin{lstlisting}
+-- | If the @k@ contains a 'Left' value, then @unfurl k@ 'Left'-outputs
+-- the first 'Left' value of @k@.  If @k@ contains no 'Left' values,
+-- then @unfurl k@ 'Right'ly outputs all elements of @k@.
+unfurl :: [Either a b]
+       -- ^ This bit is the list which should be simplified.
+       -> Either a [b];
+unfurl k = bool lefts' rights' $ null $ lefts k
+  where
+  rights' = Right $ rights k
+  lefts' = Left $ head $ lefts k;
+\end{lstlisting}
 \section{Variables}
 For all variables $v$, there exists a comment $c$ such that $c$ describes the content of $v$ and \textit{possibly} the purpose of $v$.
 
@@ -451,4 +473,96 @@ factor ← {1 = ⍵ : 1 ⋄ isPrime ⍵ : ⍵ ⋄ ⊃,/factor ¨ ⍵ {⍵,⍺÷�
 Adding documentation to this snippet is left as an exercise for the reader.
 
 Further simplifying this snippet is also left as an exercise for the reader; VARIK finds that attempting to further simplify the snippet may be a waste of time, and VARIK does not wish to waste time.
+\chapter{Cruft}
+\section{Executive Summary}
+Source code should not contain commented-out stuff.
+\section{Version Control Systems}
+Using version control systems effectively implies not needing to ``comment out'' stuff.
+
+This document is \textit{not} a guide to version control systems; there exist a decent number of such guides\footnote{RTFM.}, and this document is just not designed to be a guide to version control systems.
+
+However, VARIK can recommend a few specific version control systems.  A subset of the version control systems which VARIK recommends is as follows:
+\begin{itemize}
+	\item DARCS
+	\item Git
+\end{itemize}
+\section{Examples of Commented-Out Stuff}
+\subsubsection{Example wXV50Clo}
+An example of a program which contains some commented-out trash is as follows:
+
+\begin{lstlisting}
+#include <stdio.h>
+int wikky(char x)
+{
+	if(x + 1 == x + 1)
+		if(1)
+			return 0;
+		else
+			return 0;
+	else
+		return 0;
+	/*
+	 * Mad propz to JimmyDeansSausageFest on Stack Overflow!
+	 */
+}
+int dtbc()
+{
+	printf("e");
+	printf("l");
+	printf("l");
+	printf("o");
+	printf("%s", ", ");
+	return 0;
+}
+void ritchiesnightmare(unsigned long long int foo)
+{
+	printf("Hello, world.");
+//	if(0)
+		//return "ass";
+		//Carried over from previous iteration
+}
+int giveANewLine(char * asdfasdfasdf)
+{
+	//printf("Hello, world.\n");
+	//A superior solution is created!
+	if(asdfasdfasdf[0] == 'H')
+		if(asdfasdfasdf[1] == 'e')
+			if(asdfasdfasdf[2] == 'l')
+				if(asdfasdfasdf[3] == 'l')
+					if(asdfasdfasdf[4] == 'o')
+						if(asdfasdfasdf[5] == ',' && asdfasdfasdf[6] == ' ' && asdfasdfasdf[7] == 'w')
+							printf("\n");
+	return 0;
+}
+//int main()
+//{
+//	printf("Hello, world.\n");
+//	return 0;
+//}
+int main(int argc, char * * argv)
+{
+	unsigned long long SOMESTUPIDLONGASSVARIABLENAME = wikky(argv[0][0]);
+	if(SOMESTUPIDLONGASSVARIABLENAME != wikky(6553))
+	{
+		//Accounting for edge cases...
+		exit(9021);
+		exit(9021);
+		//Just to be safe...
+		exit(9021);
+	}
+	else
+	{
+		if(1)
+		{
+			printf("%s","H");}
+		dtbc();
+		char object[5] = "world";
+		printf("%s%s%s",object,"",".");
+	}
+	giveANewLine("Hello, world.");
+}
+\end{lstlisting}
+In addition to overall being a dumpster fire, this obviously contrived example contains some commented-out stuff which can distract the reader from the portions of the source code which are actally worthy of note.
+
+Additionally, as previously stated, version control systems exist for a damn good reason.  The commented-out junk can be removed from the file such that this stuff is still ``kept around'' for archival purposes.
 \end{document}
